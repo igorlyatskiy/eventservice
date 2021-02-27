@@ -1,0 +1,92 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "Event service",
+    "version" : "0.1.0"
+  },
+  "servers" : [ {
+    "url" : "http://localhost:10010/api/v1"
+  } ],
+  "paths" : {
+    "/events" : {
+      "get" : {
+        "description" : "Returns list of city events",
+        "operationId" : "events",
+        "parameters" : [ {
+          "name" : "date",
+          "in" : "query",
+          "description" : "Filtering date",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/EventsResponse"
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "x-swagger-router-controller" : "event-controller"
+    },
+    "/swagger" : {
+      "x-swagger-pipe" : "swagger_raw"
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "EventsResponse" : {
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/Event"
+        }
+      },
+      "Event" : {
+        "required" : [ "id" ],
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "image" : {
+            "type" : "string"
+          },
+          "date" : {
+            "type" : "string"
+          },
+          "location" : {
+            "type" : "string"
+          }
+        }
+      },
+      "ErrorResponse" : {
+        "required" : [ "message" ],
+        "type" : "object",
+        "properties" : {
+          "message" : {
+            "type" : "string"
+          }
+        }
+      }
+    }
+  }
+}
